@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     AnimationHandler animationHandler;
     SpriteRenderer spriteRenderer;
     Interactable interactable;
+    PlayerVehicle playerVehicle;
 
     [SerializeField] GameObject interacionInfo;
     [SerializeField] float speed = 5f;
@@ -29,6 +30,7 @@ public class PlayerControl : MonoBehaviour
         TryGetComponent(out animationHandler);
         TryGetComponent(out rigid);
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        playerVehicle = GetComponentInChildren<PlayerVehicle>();
 
         // 외형 오브젝트의 초기 로컬 좌표
         sprite_origin = spriteRenderer.transform.localPosition;
@@ -104,6 +106,14 @@ public class PlayerControl : MonoBehaviour
         interactable = target;
         // 들어갈 때 상호작용 키 안내 UI 출현/ 나갈 때 UI 비활성화
         interacionInfo.SetActive(target);
+    }
+
+    // 플레이어 탑승 변경
+    // UI 버튼의 OnClick()에 등록 가능한 메서드는 매개변수로 사용자 정의 enum을 받을 수 없음..
+    // 잠을 얼마 못자서 다른 방법이 떠오르지 않아 임시로 int형으로 우회
+    public void ChangeVehicle(int vehicleType)
+    {
+        speed = playerVehicle.ChangeVehicle_outlook((VehicleType)vehicleType);
     }
 
     //void DontFire(InputValue inputValue)
